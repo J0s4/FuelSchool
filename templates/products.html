@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+</head>
+<body>
+
+<nav>
+
+    <div class="logo">
+        🔥 FuelSchool
+    </div>
+
+    <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/products">Productos</a></li>
+        <li><a href="/login">Login</a></li>
+        <li>
+    <a href="/cart" id="cart-counter">
+        Carrito 🛒 (0)
+    </a>
+</li>
+    </ul>
+
+</nav>
+
+<!-- COMIDAS -->
+
+<h1 class="title">
+    🍔 Comidas
+</h1>
+
+<p class="category-subtitle">
+    Energía para continuar estudiando.
+</p>
+
+<div class="products">
+
+    {% for product in comidas %}
+
+    <div class="card">
+
+        <img src="{{ url_for('static',
+        filename='images/' + product.image) }}">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>₡ {{ product.price }}</p>
+
+        <button onclick="addToCart(
+            '{{ product.name }}',
+            {{ product.price }},
+            '{{ product.image }}'
+        )">
+
+            Agregar
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- BEBIDAS -->
+
+<h1 class="title">
+    Bebidas
+</h1>
+
+<div class="products">
+
+    {% for product in bebidas %}
+
+    <div class="card">
+
+        <img src="{{ url_for('static',
+        filename='images/' + product.image) }}">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>₡ {{ product.price }}</p>
+
+        <button onclick="addToCart(
+            '{{ product.name }}',
+            {{ product.price }},
+            '{{ product.image }}'
+        )">
+
+            Agregar
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- SNACKS -->
+
+<h1 class="title">
+    Snacks
+</h1>
+
+<div class="products">
+
+    {% for product in snacks %}
+
+    <div class="card">
+
+        <img src="{{ url_for('static',
+        filename='images/' + product.image) }}">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>₡ {{ product.price }}</p>
+
+        <button onclick="addToCart(
+            '{{ product.name }}',
+            {{ product.price }},
+            '{{ product.image }}'
+        )">
+
+            Agregar
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<footer>
+
+    <div class="footer-container">
+
+        <div>
+
+            <h3>FuelSchool</h3>
+
+            <p>
+                La energía que alimenta tu estudio.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>Menú</h3>
+
+            <p>Comidas</p>
+            <p>Bebidas</p>
+            <p>Snacks</p>
+
+        </div>
+
+        <div>
+
+            <h3>Contacto</h3>
+
+            <p>
+                fuelschool@gmail.com
+            </p>
+
+            <p>
+                +506 8888-8888
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 FuelSchool
+
+    </div>
+
+</footer>
+
+<script src="{{ url_for('static',
+filename='js/app.js') }}"></script>
+
+</body>
+</html>

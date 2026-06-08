@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav>
+
+    <div class="logo">
+        🔥 FuelSchool
+    </div>
+
+    <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/products">Productos</a></li>
+        <li><a href="/login">Login</a></li>
+        <li>
+    <a href="/cart" id="cart-counter">
+        Carrito 🛒 (0)
+    </a>
+</li>
+    </ul>
+
+</nav>
+
+<h1 class="title">
+    Carrito de Compras
+</h1>
+
+<div id="cart-items"></div>
+
+<h2 id="total"></h2>
+
+<div class="cart-buttons">
+
+    <a href="/products" class="continue-btn">
+        Seguir comprando
+    </a>
+
+    <button onclick="clearCart()"
+            class="clear-btn">
+        Vaciar carrito
+    </button>
+
+    <button onclick="submitOrder()"
+            class="submit-order">
+        Enviar pedido
+    </button>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
+```

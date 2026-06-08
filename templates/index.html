@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FuelSchool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+        🔥 FuelSchool
+    </div>
+
+    <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/products">Productos</a></li>
+        <li><a href="/login">Login</a></li>
+        <li>
+    <a href="/cart" id="cart-counter">
+        Carrito 🛒 (0)
+    </a>
+</li>
+    </ul>
+</nav>
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Energía para aprender,
+            sabor para disfrutar
+        </h1>
+
+        <p>
+            Ordena comida, bebidas y snacks
+            desde FuelSchool de forma rápida
+            y sencilla.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/products" class="hero-btn">
+                Ver Menú
+            </a>
+
+            <a href="/register" class="hero-btn-secondary">
+                Crear Cuenta
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="products">
+
+    {% for product in products %}
+    <div class="card">
+        <img src="{{ url_for('static',filename='images/' + product.image) }}">
+        <h2>{{ product.name }}</h2>
+        <p>₡ {{ product.price }}</p>
+        <button onclick="addToCart('{{ product.name }}', {{ product.price }})">
+            Agregar al carrito
+        </button>
+    </div>
+    {% endfor %}
+
+</section>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+<footer>
+
+    <div class="footer-container">
+
+        <div>
+
+            <h3>FuelSchool</h3>
+
+            <p>
+                La energía que alimenta tu estudio.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>Menú</h3>
+
+            <p>Comidas</p>
+            <p>Bebidas</p>
+            <p>Snacks</p>
+
+        </div>
+
+        <div>
+
+            <h3>Contacto</h3>
+
+            <p>
+                fuelschool@gmail.com
+            </p>
+
+            <p>
+                +506 8888-8888
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 FuelSchool
+
+    </div>
+
+</footer>
+</body>
+</html>

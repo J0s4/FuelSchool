@@ -1,0 +1,126 @@
+from flask import Flask, render_template, request, redirect, session, url_for
+from flask_pymongo import PyMongo
+from flask_bcrypt import Bcrypt
+from config import Config
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+mongo = PyMongo(app)
+print(app.config["MONGO_URI"])
+bcrypt = Bcrypt(app)
+
+# PRODUCTOS
+products = [
+
+    # COMIDAS
+    {"name": "Flautas", "price": 1000, "category": "Comida"},
+    {"name": "Hamburguesas", "price": 1000, "category": "Comida"},
+    {"name": "Sandwiches", "price": 1000, "category": "Comida"},
+    {"name": "Empanadas", "price": 1000, "category": "Comida"},
+    {"name": "Calzones", "price": 1000, "category": "Comida"},
+    {"name": "Donas", "price": 1000, "category": "Comida"},
+
+    # BEBIDAS
+    {"name": "Big Cola", "price": 800, "category": "Bebidas"},
+    {"name": "Cielo", "price": 700, "category": "Bebidas"},
+    {"name": "Agua", "price": 500, "category": "Bebidas"},
+    {"name": "Té de Limón", "price": 900, "category": "Bebidas"},
+
+    # SNACKS
+    {"name": "Snickers", "price": 700, "category": "Snacks"},
+    {"name": "Papiolas", "price": 600, "category": "Snacks"},
+    {"name": "Mentas", "price": 300, "category": "Snacks"},
+    {"name": "Trident", "price": 500, "category": "Snacks"},
+    {"name": "Platanitos", "price": 700, "category": "Snacks"},
+    {"name": "Helado", "price": 1200, "category": "Snacks"},
+]
+
+@app.route('/')
+def home():
+    return render_template('index.html', products=products)
+
+@app.route('/products')
+def product_page():
+    return render_template('products.html', products=products)
+
+# REGISTRO
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+
+    if request.method == 'POST':
+
+        name = request.form['name']
+        identification = request.form['identification']
+
+        existing_user = mongo.db.users.find_one({
+            'identification': identification
+        })
+
+        if existing_user:
+            return "Ya existe un usuario con esa identificación"
+
+        mongo.db.users.insert_one({
+            'name': name,
+            'identification': identification
+        })
+
+        # LOGIN AUTOMÁTICO
+        session['user'] = name
+        session['identification'] = identification
+
+        return redirect('/cart')
+
+    return render_template('register.html')
+
+# LOGIN
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if request.method == 'POST':
+
+        name = request.form['name']
+        identification = request.form['identification']
+
+        user = mongo.db.users.find_one({
+            'name': name,
+            'identification': identification
+        })
+
+        if user:
+
+            session['user'] = user['name']
+            session['identification'] = user['identification']
+
+            return redirect('/cart')
+
+        return "Usuario no encontrado"
+
+    return render_template('login.html')
+
+# LOGOUT
+@app.route('/logout')
+def logout():
+
+    session.clear()
+
+    return redirect('/')
+
+# CARRITO
+@app.route('/cart')
+def cart():
+
+    return render_template('cart.html')
+
+# ENVIAR PEDIDO
+@app.route('/submit-order', methods=['POST'])
+def submit_order():
+
+    # SI NO ESTÁ LOGUEADO
+    if 'user' not in session:
+        return redirect('/login')
+
+    return "Pedido enviado correctamente"
+
+if __name__ == '__main__':
+    app.run(debug=True)
